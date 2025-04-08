@@ -59,7 +59,11 @@ public class RouteDao {
         try {
             Connection connection = DataSource.getInstance().getConnection();
 
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from route");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM route;\n" +
+                    "SELECT airplane.id, location.id FROM route\n" +
+                    "INNER join airplane ON airplane.id = route.airplaneId\n" +
+                    "INNER join location ON location.id = route.arrivalLocationId\n" +
+                    "INNER join location ON location.id = route.departureLocationId;");
             ResultSet resultSet = preparedStatement.executeQuery();
 
             List<Route> route = new ArrayList<>();

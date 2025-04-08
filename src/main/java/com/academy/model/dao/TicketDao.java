@@ -1,7 +1,6 @@
 package com.academy.model.dao;
 
 
-
 import com.academy.entity.Ticket;
 
 import java.sql.Connection;
@@ -61,7 +60,12 @@ public class TicketDao {
         try {
             Connection connection = DataSource.getInstance().getConnection();
 
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from route");
+            PreparedStatement preparedStatement = connection.prepareStatement("select route.Id," +
+                    " passanger.Id,personal.id,luggage.id  FROM ticket \n" +
+                    "INNER join route ON ticket.routeId = route.id\n" +
+                    "INNER join passanger ON ticket.passangerId = passanger.id\n" +
+                    "INNER join personal ON ticket.personalId = personal.id\n" +
+                    "INNER join luggage ON ticket.luggageId = luggage.id;");
             ResultSet resultSet = preparedStatement.executeQuery();
 
             List<Ticket> ticket = new ArrayList<>();
