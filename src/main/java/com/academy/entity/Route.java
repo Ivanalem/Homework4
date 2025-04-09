@@ -7,7 +7,7 @@ import java.sql.Date;
 @Data
 public class Route {
     private Integer id;
-    private Integer airplaneId;
+    private Airplane airplane;
     private Date arrivalTime;
     private Date departureTime;
     private Integer arrivalLocationId;

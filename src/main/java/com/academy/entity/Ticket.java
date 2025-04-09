@@ -6,10 +6,10 @@ import lombok.Data;
 public class Ticket {
 
     private Integer id;
-    private Integer routId;
-    private Integer passengerId;
+    private Route route;
+    private Passenger passenger;
+    private Personal personal;
     private String passport;
-    private Integer personalId;
     private String classType;
-    private Integer luggageId;
+    private Luggage luggage;
 }

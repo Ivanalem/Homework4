@@ -1,5 +1,6 @@
 package com.academy.model.dao;
 
+import com.academy.entity.Airplane;
 import com.academy.entity.Route;
 
 import java.sql.Connection;
@@ -61,7 +62,7 @@ public class RouteDao {
 
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM route;\n" +
                     "SELECT airplane.id, location.id FROM route\n" +
-                    "INNER join airplane ON airplane.id = route.airplaneId\n" +
+                    "INNER join airplane ON airplane.id = route.airplaneid\n" +
                     "INNER join location ON location.id = route.arrivalLocationId\n" +
                     "INNER join location ON location.id = route.departureLocationId;");
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -70,11 +71,18 @@ public class RouteDao {
             while (resultSet.next()) {
                 Route route1 = new Route();
                 route1.setId(resultSet.getInt("id"));
-                route1.setId(resultSet.getInt("airplaneId"));
                 route1.setArrivalTime(resultSet.getDate("arrivalTime"));
                 route1.setDepartureTime(resultSet.getDate("departureTime"));
                 route1.setId(resultSet.getInt("arrivalLocationId"));
                 route1.setId(resultSet.getInt("departureLocationId"));
+
+                Integer airplaneId = resultSet.getInt("airplane");
+
+                if(airplaneId != null) {
+                    Airplane airplane = new Airplane();
+                    airplane.setId(airplaneId);
+                    route1.setAirplane(airplane);
+                }
                 route.add(route1);
             }
             return route;

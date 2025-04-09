@@ -1,7 +1,7 @@
 package com.academy.model.dao;
 
 
-import com.academy.entity.Ticket;
+import com.academy.entity.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -74,9 +74,29 @@ public class TicketDao {
                 ticket1.setId(resultSet.getInt("id"));
                 ticket1.setId(resultSet.getInt("routId"));
                 ticket1.setPassport(resultSet.getString("passport"));
-                ticket1.setPersonalId(resultSet.getInt("personalId"));
+                ticket1.setPersonal((Personal) resultSet.getObject("personal"));
                 ticket1.setClassType(resultSet.getString("classType"));
                 ticket1.setId(resultSet.getInt("luggageId"));
+
+                Integer routeId = resultSet.getInt("route");
+                Integer passengerId = resultSet.getInt("passanger");
+                Integer personalId = resultSet.getInt("personal");
+                Integer luggageId = resultSet.getInt("luggage");
+
+                if (routeId != null || passengerId != null || personalId != null || luggageId != null) {
+                    Route route = new Route();
+                    route.setId(routeId);
+                    ticket1.setRoute(route);
+                    Passenger passenger = new Passenger();
+                    passenger.setId(passengerId);
+                    ticket1.setPassenger(passenger);
+                    Personal personal = new Personal();
+                    personal.setId(personalId);
+                    ticket1.setPersonal(personal);
+                    Luggage luggage = new Luggage();
+                    luggage.setId(luggageId);
+                    ticket1.setLuggage(luggage);
+                }
                 ticket.add(ticket1);
             }
             return ticket;
